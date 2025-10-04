@@ -13,4 +13,4 @@ Além de servir como vitrine profissional, ele reflete minha evolução constant
 - **HTML5** – estrutura da página  
 - **CSS3** – estilização e responsividade  
 - **JavaScript** – interatividade e dinamismo  
-- **GitHub Pages ** – hospedagem do site  
+- **GitHub Pages** – hospedagem do site  
