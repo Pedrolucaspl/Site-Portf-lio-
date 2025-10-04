@@ -1,0 +1,94 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    height: 60px;
+    text-align: justify;
+    display: flex;
+    justify-content: space-between;
+    background-color: #191e48;
+}
+
+header h1 {
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 30px;
+    margin-left: 20px;
+    margin-top: 7px;
+}
+
+.redes-sociais {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 10px;
+}
+
+.redes-sociais img {
+    height: 85%;
+    width: auto;
+    vertical-align: right;
+}
+
+.redes-sociais img:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+.arte {
+    height: auto;
+    width: auto;
+    max-width: 100%;
+    overflow: hidden;      /* impede que a imagem “vaze” */
+    display: block;
+}
+
+.arte img {
+    max-width: 100%;       /* imagem nunca passa da largura da tela */
+    height: auto;          /* mantém proporção */
+    display: block;        /* evita espaçamento extra */
+}
+
+main {
+    background-color: #69351d;
+    text-align: left;
+    margin-bottom: 30px;    
+}
+
+.conteudo{
+    margin-left: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+}
+
+h2 {
+    color: #191e48;
+    font-size: 30px;;
+    margin-top: 20px;
+}
+
+p {
+    margin-right: 500px;
+    color: rgb(255, 255, 255);
+    text-indent: 1em;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+body {
+    background-color: #69351d;
+}
+
+li {
+    margin-left: 22px;
+    color: #191e48;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+a {
+    color: #ffffff;
+    text-decoration: none;
+}
