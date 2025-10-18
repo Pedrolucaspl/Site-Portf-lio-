@@ -1,53 +1,109 @@
-<html lang="pt-br">
+<!DOCTYPE html>
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
-    <title>Pedro | Meu Portfólio </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio | Pedro Barbara</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Fira+Code&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
     <header>
-        <h1>Bem-vindo ao Meu Site</h1>
-
-        <div class="redes-sociais">
-            <a href="https://github.com/Pedrolucaspl">
-                <img src="Imagens/logoGithub.png" alt="Logo do Github">
-            </a>
-            <a href="https://www.linkedin.com/in/pedro-lucas-fante-barbara/">
-                <img src="Imagens/logoLinkedin.png" alt="Link do LinkedIn">
-            </a>
-            <a href="https://www.instagram.com/pedrolucasfb">
-                <img src="Imagens/logoInstagram.png" alt="Logo do Instagram">
-            </a>
-        </div>
+        <h1>Pedro Barbara</h1>
+        <nav>
+            <a href="#sobre">Sobre</a>
+            <a href="#projetos">Projetos</a>
+            <a href="#contato">Contato</a>
+        </nav>
     </header>
 
-    <main>
-        <div class="arte">
-            <img src="Imagens/arteSite.png" alt="Arte do site">
+    <section class="hero">
+        <h2>> Olá, eu sou Pedro Barbara_</h2>
+        <p>Desenvolvedor Full Stack | Transformando problemas em código.</p>
+        <a href="#projetos" class="btn">Ver Projetos</a>
+    </section>
+
+    <section id="sobre" class="content about">
+        <div class="about-grid">
+            <div class="about-avatar">
+                <img src="assets/avatar.png" alt="Pedro Barbara" class="avatar-img">
+            </div>
+            <div class="about-text">
+                <h2>##Sobre Mim</h2>
+                <p class="lead">Sou estudante de Engenharia de Software apaixonado por tecnologia e desenvolvimento de soluções eficientes. Busco unir funcionalidade, design e desempenho em cada projeto.</p>
+
+                <div class="about-bio">
+                    <p>Trabalho com diversas linguagens e tecnologias, incluindo:</p>
+                    <ul class="skills vertical">
+                        <li>HTML, CSS, JavaScript — interfaces modernas e responsivas</li>
+                        <li>Delphi — aplicações desktop robustas</li>
+                        <li>Java — aplicações orientadas a objetos</li>
+                        <li>SQL (PostgreSQL) — modelagem e manipulação de dados</li>
+                    </ul>
+                </div>
+
+                <p>Valorizo organização, aprendizado contínuo e resolução de problemas. Tenho facilidade em trabalhar em equipe e estou sempre aprimorando minhas práticas de desenvolvimento.</p>
+            </div>
         </div>
-        <div class="conteudo">
-            <h2>Sobre Mim</h2>
-            <p>Meu nome é Pedro e a programação é a minha maior paixão.</p>
-            <p>Estou sempre buscando aprender, evoluir e criar coisas novas.</p>
-            <p>Também adoro correr, tocar violão e explorar tudo o que envolve tecnologia.</p>
-            <p>Este portfólio mostra um pouco da minha caminhada — feita de aprendizado, desafios e muita vontade de
-                crescer.</p>
-            <h2>Meus Projetos</h2>
-            <ul>
-                <li><a href="#">Projeto 1: Site de Portfólio</a></li>
-                <li><a href="#">Projeto 2: Aplicativo de Tarefas</a></li>
-                <li><a href="#">Projeto 3: Blog Pessoal</a></li>
-            </ul>
-            <h2>Contato</h2>
-            <p>Se você deseja entrar em contato comigo, envie um e-mail para: <a
-                    href="mailto:pedrolucasf.pl@gmail.com">pedrolucasf.pl@gmail.com</a>.</p>
-    </main>
+    </section>
 
+    <section id="projetos" class="content">
+        <h2>Projetos</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Projeto Montando Meu Portfólio</h3>
+                <p>Portfólio pessoal utilizando HTML, CSS e JavaScript, com design vibrante em tons de vermelho e roxo, destacando projetos e habilidades de desenvolvimento com uma estética moderna e tecnológica.</p>
+                <div class="card-actions center">
+                    <a href="assets/demoP1.mp4" class="card-btn" target="_blank" rel="noopener">Demo</a>
+                    <a href=https://github.com/Pedrolucaspl/Site-Portfolio class="card-btn">Código</a>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Projeto 2</h3>
+                <p>Descrição do projeto 2.</p>
+                <div class="card-actions center">
+                    <a href="#" class="card-btn">Demo</a>
+                    <a href="#" class="card-btn">Código</a>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Projeto 3</h3>
+                <p>Descrição do projeto 3.</p>
+                <div class="card-actions center">
+                    <a href="#" class="card-btn">Demo</a>
+                    <a href="#" class="card-btn">Código</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <section id="contato" class="content contato">
+        <h2>Contato</h2>
+        <p>const contato = "Vamos criar algo incrivel?</p>
+        <div class="links-contato">
+            <a href="mailto:pedrolucasf.pl@gmail.com" target="_blank">📧 Email</a>
+            <a href="https://github.com/pedrolucaspl" target="_blank">💻 GitHub</a>
+            <a href="https://linkedin.com/in/pedro-lucas-fante-barbara" target="_blank">🔗 LinkedIn</a>
+        </div>
+    </section>
 
+    <footer>
+        <p> ₢ 2025 Pedro Barbara - Desenvolvido com ❤ e código.</p>
+    </footer>
+
+    <script>
+        document.querySelector('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                document.querySelector(link.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        })
+    </script>
 </body>
 
 </html>
