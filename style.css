@@ -296,6 +296,10 @@ nav a:hover {
     .card .card-btn{
         width: 100%;
         text-align: center;
+        box-sizing: border-box;
+        margin-left: 0;
+        margin-right: 0;
+        overflow-wrap: break-word;
     }
 }
 
@@ -313,8 +317,9 @@ footer{
 .links-contato {
     display: flex;
     justify-content: center;
-    gap: 205x;
+    gap: 32px;
     margin-top: 20px;
+    flex-wrap: wrap;
 }
 
 .links-contato a {
@@ -324,7 +329,7 @@ footer{
     border: 2px solid var(--white);
     padding: 10px 20px;
     border-radius: 10px;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .links-contato a:hover {
