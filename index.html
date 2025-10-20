@@ -29,7 +29,7 @@
     <section id="sobre" class="content about">
         <div class="about-grid">
             <div class="about-avatar">
-                <img src="assets/avatar.png" alt="Pedro Barbara" class="avatar-img">
+                <img src="assets/avatar.png" alt="Foto de Pedro Barbara" class="avatar-img">
             </div>
             <div class="about-text">
                 <h2>##Sobre Mim</h2>
@@ -84,26 +84,16 @@
         <h2>##Contato</h2>
         <p>const contato = "Vamos criar algo incrivel?</p>
         <div class="links-contato">
-            <a href="mailto:pedrolucasf.pl@gmail.com" target="_blank">📧 Email</a>
-            <a href="https://github.com/pedrolucaspl" target="_blank">💻 GitHub</a>
-            <a href="https://linkedin.com/in/pedro-lucas-fante-barbara" target="_blank">🔗 LinkedIn</a>
+            <a href="mailto:pedrolucasf.pl@gmail.com" target="_blank" rel="noopener noreferrer">📧 Email</a>
+            <a href="https://github.com/pedrolucaspl" target="_blank" rel="noopener noreferrer">💻 GitHub</a>
+            <a href="https://linkedin.com/in/pedro-lucas-fante-barbara" target="_blank" rel="noopener noreferrer">🔗 LinkedIn</a>
         </div>
     </section>
 
     <footer>
         <p> ₢ 2025 Pedro Barbara - Desenvolvido com ❤ e código.</p>
     </footer>
-
-    <script>
-        document.querySelector('a[href^="#"]').forEach(link => {
-            link.addEventListener('click', e => {
-                e.preventDefault();
-                document.querySelector(link.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        })
-    </script>
+    <script src="script.js" defer></script>
 </body>
 
 </html>
