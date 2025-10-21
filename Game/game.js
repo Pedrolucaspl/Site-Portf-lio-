@@ -2,9 +2,10 @@ const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
 const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-// Velocidade inicial (ajustada: desktop mais lenta, mobile um pouco mais rápida)
-let baseSpeed = isMobile ? 3.5 : 2.0; // mais rápido no celular
-let maxSpeed = isMobile ? 8 : 6;
+// Velocidade inicial (desktop mais lenta; mobile mais rápida)
+// Aumentei os valores mobile para deixar o jogo mais rápido apenas em celulares
+let baseSpeed = isMobile ? 4 : 2.0; // mais rápido no celular
+let maxSpeed = isMobile ? 9 : 6;
 let gameSpeed = baseSpeed;
 
 // ⚙️ Configurações iniciais
