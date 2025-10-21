@@ -1,6 +1,24 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
+// Função para ajustar o tamanho do canvas
+function resizeCanvas() {
+    const maxWidth = window.innerWidth - 20;
+    const maxHeight = window.innerHeight - 20;
+    const aspectRatio = 800 / 400;
+    
+    let newWidth = maxWidth;
+    let newHeight = newWidth / aspectRatio;
+    
+    if (newHeight > maxHeight) {
+        newHeight = maxHeight;
+        newWidth = newHeight * aspectRatio;
+    }
+    
+    canvas.style.width = newWidth + 'px';
+    canvas.style.height = newHeight + 'px';
+}
+
 // Configurações do jogo
 let gameSpeed = 4;
 let gravity = 0.6;
@@ -243,18 +261,37 @@ score += deltaTime * (gameSpeed / 4);
 }
 
 // --- Controles ---
-document.addEventListener("keydown", (e) => {
-  if (e.code === "Space") {
+function jump() {
     if (player.grounded || player.jumpCount < player.maxJumps) {
-      player.dy = player.jumpPower;
-      player.grounded = false;
-      player.jumpCount += 1;
+        player.dy = player.jumpPower;
+        player.grounded = false;
+        player.jumpCount += 1;
     }
-  }
-  if (!running && (e.key === "r" || e.key === "R")) {
-    restartGame();
-  }
+}
+
+// Controles de teclado
+document.addEventListener("keydown", (e) => {
+    if (e.code === "Space") {
+        jump();
+    }
+    if (!running && (e.key === "r" || e.key === "R")) {
+        restartGame();
+    }
 });
+
+// Controles de toque
+canvas.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    if (running) {
+        jump();
+    } else {
+        restartGame();
+    }
+});
+
+// Ajuste de tamanho quando a tela muda
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
 
 // --- Iniciar jogo ---
 requestAnimationFrame(update);
