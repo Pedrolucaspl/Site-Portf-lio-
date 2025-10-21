@@ -1,46 +1,32 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-// Função para ajustar o tamanho do canvas
-function resizeCanvas() {
-    const maxWidth = window.innerWidth - 20;
-    const maxHeight = window.innerHeight - 20;
-    const aspectRatio = 800 / 400;
-    
-    let newWidth = maxWidth;
-    let newHeight = newWidth / aspectRatio;
-    
-    if (newHeight > maxHeight) {
-        newHeight = maxHeight;
-        newWidth = newHeight * aspectRatio;
-    }
-    
-    canvas.style.width = newWidth + 'px';
-    canvas.style.height = newHeight + 'px';
-}
 
-// Configurações do jogo
-let gameSpeed = 4;
-let gravity = 0.6;
+// ⚙️ Configurações iniciais
+let gravity = 0.3;
 let score = 0;
 let bitsCollected = 0;
 let running = true;
 let lastTime = 0;
 
-// Player
+let baseSpeed = 2.5;
+let maxSpeed = 7;
+let gameSpeed = baseSpeed;
+
+// 👾 Player
 const player = {
   x: 50,
   y: 300,
   width: 30,
   height: 30,
   dy: 0,
-  jumpPower: -12,
+  jumpPower: -10,
   grounded: true,
   jumpCount: 0,
-  maxJumps: 2
+  maxJumps: 2,
 };
 
-// Obstáculos e bits
+// 🚧 Obstáculos e bits
 let obstacles = [];
 let dataBits = [];
 let bitsSinceLastObstacle = 0;
@@ -53,15 +39,12 @@ function createObstacleAt(x) {
   let gap = 0;
 
   if (typeRandom < 0.2) {
-    // Obstáculo passável por baixo (alto o suficiente para não pular por cima)
     gap = player.height + 8;
     height = canvas.height - gap - 40;
     passBelow = true;
   } else if (typeRandom < 0.5) {
-    // Obstáculo grande
     height = Math.random() * 80 + 60;
   } else {
-    // Obstáculo pequeno
     height = Math.random() * 30 + 20;
   }
 
@@ -70,20 +53,20 @@ function createObstacleAt(x) {
     y: canvas.height - height,
     width: 20,
     height: height,
-    passBelow: passBelow,
-    gap: gap
+    passBelow,
+    gap,
   });
 
   bitsSinceLastObstacle = 0;
 }
 
-// --- Criar bit de dados ---
+// --- Criar bit ---
 function createDataBit() {
-  if (bitsSinceLastObstacle >= 3) return; // máximo 3 bits por obstáculo
-  if (dataBits.length >= 3) return;       // máximo 3 bits ativos ao mesmo tempo
+  if (bitsSinceLastObstacle >= 3) return;
+  if (dataBits.length >= 3) return;
 
   const size = 15;
-  const minDistanceFromObstacle = 20; // distância mínima lateral dos obstáculos
+  const minDistanceFromObstacle = 20;
   const maxJumpHeight = player.jumpPower * -2.5;
   const minY = canvas.height - player.height - 10;
   const maxY = canvas.height - player.height - maxJumpHeight;
@@ -98,10 +81,11 @@ function createDataBit() {
     for (const obs of obstacles) {
       const obsTop = obs.y;
       const obsBottom = obs.passBelow ? obs.y + obs.height - obs.gap : obs.y + obs.height;
-
-      // Verifica se o bit ficaria sobre ou muito perto de um obstáculo
       if (y + size > obsTop && y < obsBottom) {
-        if (canvas.width + size > obs.x - minDistanceFromObstacle && canvas.width < obs.x + obs.width + minDistanceFromObstacle) {
+        if (
+          canvas.width + size > obs.x - minDistanceFromObstacle &&
+          canvas.width < obs.x + obs.width + minDistanceFromObstacle
+        ) {
           collision = true;
           break;
         }
@@ -118,8 +102,8 @@ function createDataBit() {
 
 // --- Criar obstáculos aleatórios ---
 function maybeCreateObstacle() {
-  const minDistance = 200;
-  const maxDistance = 400;
+  const minDistance = 200 + gameSpeed * 15;
+  const maxDistance = 400 + gameSpeed * 25;
   const lastObstacle = obstacles[obstacles.length - 1];
 
   if (!lastObstacle || lastObstacle.x + lastObstacle.width < canvas.width - minDistance) {
@@ -143,7 +127,7 @@ function restartGame() {
   player.dy = 0;
   player.grounded = true;
   player.jumpCount = 0;
-  gameSpeed = 4;
+  gameSpeed = baseSpeed;
   running = true;
   lastTime = 0;
 }
@@ -152,13 +136,11 @@ function restartGame() {
 function update(timestamp) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Calcula tempo decorrido entre frames
   if (!lastTime) lastTime = timestamp;
-  const deltaTime = (timestamp - lastTime) / 1000; // em segundos
+  const deltaTime = (timestamp - lastTime) / 1000;
   lastTime = timestamp;
 
   if (!running) {
-    // Overlay Game Over
     ctx.fillStyle = "rgba(0,0,0,0.6)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "#ff5555";
@@ -167,16 +149,19 @@ function update(timestamp) {
     ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2 - 20);
     ctx.font = "18px monospace";
     ctx.fillText(`Score: ${Math.floor(score)} | Bits: ${bitsCollected}`, canvas.width / 2, canvas.height / 2 + 10);
-    ctx.fillText("Pressione R para reiniciar", canvas.width / 2, canvas.height / 2 + 40);
+    ctx.fillText("Toque para reiniciar", canvas.width / 2, canvas.height / 2 + 40);
     requestAnimationFrame(update);
     return;
   }
 
-  // Score aumenta com o tempo e também com a velocidade
-score += deltaTime * (gameSpeed / 4); 
+  // 🎚️ Dificuldade
+  const difficultyScale = 1 - Math.exp(-score / 200);
+  gameSpeed = baseSpeed + (maxSpeed - baseSpeed) * difficultyScale;
 
+  // 🧮 Score
+  score += deltaTime * (gameSpeed / 4);
 
-  // --- Player ---
+  // 👾 Player
   player.dy += gravity;
   player.y += player.dy;
 
@@ -190,7 +175,7 @@ score += deltaTime * (gameSpeed / 4);
   ctx.fillStyle = "#00ff00";
   ctx.fillRect(player.x, player.y, player.width, player.height);
 
-  // --- Obstáculos ---
+  // 🚧 Obstáculos
   for (let i = obstacles.length - 1; i >= 0; i--) {
     const obs = obstacles[i];
     obs.x -= gameSpeed;
@@ -202,7 +187,6 @@ score += deltaTime * (gameSpeed / 4);
       ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
     }
 
-    // Colisão
     if (player.x < obs.x + obs.width && player.x + player.width > obs.x) {
       if (!obs.passBelow) {
         if (player.y < obs.y + obs.height && player.y + player.height > obs.y) {
@@ -220,7 +204,7 @@ score += deltaTime * (gameSpeed / 4);
     }
   }
 
-  // --- Bits ---
+  // 💾 Bits
   for (let i = dataBits.length - 1; i >= 0; i--) {
     const bit = dataBits[i];
     bit.x -= gameSpeed;
@@ -234,7 +218,7 @@ score += deltaTime * (gameSpeed / 4);
       player.y + player.height > bit.y
     ) {
       dataBits.splice(i, 1);
-      score += 5; // +5 pontos por bit
+      score += 5;
       bitsCollected += 1;
     }
 
@@ -243,55 +227,42 @@ score += deltaTime * (gameSpeed / 4);
     }
   }
 
-  // --- UI ---
+  // 🧠 UI
   ctx.fillStyle = "#00ff00";
   ctx.font = "20px monospace";
   ctx.textAlign = "left";
   ctx.fillText("Score: " + Math.floor(score), 10, 30);
   ctx.fillText("Bits: " + bitsCollected, 10, 60);
 
-  // Velocidade gradual
-  gameSpeed += 0.003;
-
-  // Criar obstáculos e bits
+  // Spawn
   maybeCreateObstacle();
   if (Math.random() < 0.01) createDataBit();
 
   requestAnimationFrame(update);
 }
 
-// --- Controles ---
-function jump() {
-    if (player.grounded || player.jumpCount < player.maxJumps) {
-        player.dy = player.jumpPower;
-        player.grounded = false;
-        player.jumpCount += 1;
-    }
+// 🎮 Controles teclado
+document.addEventListener("keydown", (e) => {
+  if (e.code === "Space") jumpPlayer();
+  if (!running && (e.key === "r" || e.key === "R")) restartGame();
+});
+
+// 📱 Controles toque
+canvas.addEventListener("touchstart", () => {
+  if (running) {
+    jumpPlayer();
+  } else {
+    restartGame();
+  }
+});
+
+function jumpPlayer() {
+  if (player.grounded || player.jumpCount < player.maxJumps) {
+    player.dy = player.jumpPower;
+    player.grounded = false;
+    player.jumpCount += 1;
+  }
 }
 
-// Controles de teclado
-document.addEventListener("keydown", (e) => {
-    if (e.code === "Space") {
-        jump();
-    }
-    if (!running && (e.key === "r" || e.key === "R")) {
-        restartGame();
-    }
-});
-
-// Controles de toque
-canvas.addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    if (running) {
-        jump();
-    } else {
-        restartGame();
-    }
-});
-
-// Ajuste de tamanho quando a tela muda
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-
-// --- Iniciar jogo ---
+// ▶️ Iniciar o jogo
 requestAnimationFrame(update);
